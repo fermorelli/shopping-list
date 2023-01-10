@@ -18,7 +18,11 @@ const setBackToDefault = () => {
 }
 
 const addToLocalStorage = (id,value) => {
-    localStorage.setItem(id,value)
+    const grocery = {id, value};
+    let items = localStorage.getItem('list') ? JSON.parse(localStorage.getItem('list')) : [];
+    console.log(items);
+    items.push(grocery);
+    localStorage.setItem('list', JSON.stringify(items))
 };
 
 const removeFromLocalStorage = (id) => {
