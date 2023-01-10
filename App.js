@@ -148,6 +148,6 @@ const setUpItems = () => {
     }
 }
 
-form.addEventListener("submit", addItem);
+form.addEventListener("submit", addItem, true);
 clearBtn.addEventListener('click', clearItems);
 window.addEventListener('DOMContentLoaded',setUpItems);
