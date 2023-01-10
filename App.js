@@ -35,7 +35,14 @@ const removeFromLocalStorage = (id) => {
 };
 
 const editLocalStorage = (id, value) => {
-    console.log('edit', id, value);
+    let items = getLocalStorage();
+    items = items.map((item)=>{
+        if(item.id===id){
+            item.value = value;
+        }
+        return item;
+    });
+    localStorage.setItem('list', JSON.stringify(items));
 }
 
 const deleteItem = (e) => {
