@@ -19,6 +19,35 @@ const setBackToDefault = () => {
 
 const addToLocalStorage = (id,value) => {
     localStorage.setItem(id,value)
+};
+
+const removeFromLocalStorage = (id) => {
+    localStorage.removeItem(id);
+};
+
+const editLocalStorage = (id, value) => {
+    console.log('edit', id, value);
+}
+
+const deleteItem = (e) => {
+    const element = e.currentTarget.parentElement.parentElement;
+    const id = element.dataset.id;
+    list.removeChild(element);
+    if(list.children.length === 0){
+        container.classList.remove('show-container');
+    }
+    displayAlert('item removed', 'success');
+    setBackToDefault();
+    removeFromLocalStorage(id);
+}
+
+const editItem = (e) => {
+    const element = e.currentTarget.parentElement.parentElement;
+    editElement = e.currentTarget.parentElement.previousElementSibling;
+    grocery.value = editElement.innerHTML;
+    editFlag = true;
+    editId = element.dataset.id;
+    submitBtn.textContent = 'edit';
 }
 
 const addItem = (e) => {
@@ -43,6 +72,13 @@ const addItem = (e) => {
             <i class="fas fa-trash"></i>
           </button>
         </div>`;
+
+        const deleteBtn = element.querySelector('.delete-btn');
+        const editBtn = element.querySelector('.edit-btn');
+
+        deleteBtn.addEventListener('click', deleteItem);
+        editBtn.addEventListener('click', editItem);
+
         list.appendChild(element);
         displayAlert('item added to list', 'success');
         container.classList.add('show-container');
@@ -50,7 +86,10 @@ const addItem = (e) => {
         setBackToDefault();
     }
     else if(value && editFlag){
-        console.log('editing')
+        editElement.innerHTML = value;
+        displayAlert('value changed', 'success');
+        editLocalStorage(editId, value);
+        setBackToDefault();
     }
     else{
         displayAlert('please enter a value', 'danger')
@@ -63,7 +102,7 @@ const displayAlert = (text, action) => {
     setTimeout(()=>{
         alert.textContent = '';
         alert.classList.remove(`alert-${action}`);
-    },2000)
+    },1000)
 }
 
 const clearItems = () =>{
@@ -75,6 +114,8 @@ const clearItems = () =>{
     }
     container.classList.remove('show-container');
     displayAlert('empty list', 'danger');
+    setBackToDefault();
+    localStorage.removeItem('list');
 }
 
 form.addEventListener("submit", addItem);
