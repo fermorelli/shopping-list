@@ -10,6 +10,17 @@ let editElement;
 let editFlag = false;
 let editId = '';
 
+const setBackToDefault = () => {
+    grocery.value = '';
+    editFlag = false;
+    editId = '';
+    submitBtn.textContent = "submit";
+}
+
+const addToLocalStorage = (id,value) => {
+    localStorage.setItem(id,value)
+}
+
 const addItem = (e) => {
     e.preventDefault();
     const value = grocery.value;
@@ -35,6 +46,8 @@ const addItem = (e) => {
         list.appendChild(element);
         displayAlert('item added to list', 'success');
         container.classList.add('show-container');
+        addToLocalStorage(id,value);
+        setBackToDefault();
     }
     else if(value && editFlag){
         console.log('editing')
@@ -53,4 +66,16 @@ const displayAlert = (text, action) => {
     },2000)
 }
 
+const clearItems = () =>{
+    const items = document.querySelectorAll('.grocery-item');
+    if(items.length > 0){
+        items.forEach((item)=>{
+            list.removeChild(item);
+        })
+    }
+    container.classList.remove('show-container');
+    displayAlert('empty list', 'danger');
+}
+
 form.addEventListener("submit", addItem);
+clearBtn.addEventListener('click', clearItems);
