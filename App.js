@@ -17,16 +17,21 @@ const setBackToDefault = () => {
     submitBtn.textContent = "submit";
 }
 
+const getLocalStorage = () => {
+    return localStorage.getItem('list') ? JSON.parse(localStorage.getItem('list')) : [];
+}
+
 const addToLocalStorage = (id,value) => {
     const grocery = {id, value};
-    let items = localStorage.getItem('list') ? JSON.parse(localStorage.getItem('list')) : [];
-    console.log(items);
+    let items = getLocalStorage();
     items.push(grocery);
     localStorage.setItem('list', JSON.stringify(items))
 };
 
 const removeFromLocalStorage = (id) => {
-    localStorage.removeItem(id);
+    let items = getLocalStorage();
+    items = items.filter((item) => item.id !== id);
+    localStorage.setItem('list', JSON.stringify(items));
 };
 
 const editLocalStorage = (id, value) => {
