@@ -1,3 +1,5 @@
+const onLoad = ()=>{
+
 const alert = document.querySelector('.alert');
 const form = document.querySelector('.shopping-form');
 const grocery = document.getElementById('grocery');
@@ -151,3 +153,5 @@ const setUpItems = () => {
 form.addEventListener("submit", addItem);
 clearBtn.addEventListener('click', clearItems);
 window.addEventListener('DOMContentLoaded',setUpItems);
+
+}
